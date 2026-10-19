@@ -1,0 +1,1228 @@
+{% extends "alzhmri/base.html" %}
+
+{% block title %}
+Alzheimer's Disease Prediction | MRI Classification
+{% endblock %}
+
+{% block content %}
+<style>
+    /* =========================================
+HOW IT WORKS SECTION
+========================================= */
+
+.workflow-section {
+padding: 90px 0;
+background: #f7f9fc;
+position: relative;
+}
+
+/* =========================================
+SECTION HEADING
+========================================= */
+
+.section-heading {
+max-width: 760px;
+margin: 0 auto 60px;
+}
+
+.section-label {
+display: inline-block;
+font-size: 13px;
+font-weight: 700;
+letter-spacing: 2px;
+color: #5b6ee1;
+margin-bottom: 14px;
+}
+
+.section-heading h2 {
+margin: 0 0 16px;
+font-size: 38px;
+line-height: 1.25;
+font-weight: 700;
+color: #172033;
+}
+
+.section-heading p {
+margin: 0 auto;
+max-width: 620px;
+font-size: 16px;
+line-height: 1.7;
+color: #6c7485;
+}
+
+/* =========================================
+WORKFLOW WRAPPER
+========================================= */
+
+.workflow-wrapper {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 25px;
+position: relative;
+}
+
+/* Connecting line */
+
+.workflow-wrapper::before {
+content: "";
+position: absolute;
+top: 54px;
+left: 11%;
+right: 11%;
+height: 2px;
+background: #dfe4f1;
+z-index: 0;
+}
+
+/* =========================================
+PROCESS CARD
+========================================= */
+
+.process-card {
+position: relative;
+z-index: 1;
+
+```
+background: #ffffff;
+border: 1px solid #e7eaf2;
+border-radius: 20px;
+
+padding: 38px 25px 30px;
+
+text-align: center;
+
+box-shadow: 0 10px 30px rgba(35, 45, 75, 0.06);
+
+transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+```
+
+}
+
+.process-card:hover {
+transform: translateY(-8px);
+border-color: #cfd6f7;
+box-shadow: 0 18px 40px rgba(35, 45, 75, 0.12);
+}
+
+/* =========================================
+STEP NUMBER
+========================================= */
+
+.process-number {
+position: absolute;
+top: -12px;
+left: 50%;
+
+```
+transform: translateX(-50%);
+
+min-width: 48px;
+height: 26px;
+
+padding: 4px 12px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 30px;
+
+background: #5b6ee1;
+color: #ffffff;
+
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 1px;
+
+box-shadow: 0 5px 15px rgba(91, 110, 225, 0.25);
+```
+
+}
+
+/* =========================================
+ICON
+========================================= */
+
+.process-icon {
+width: 70px;
+height: 70px;
+
+```
+margin: 0 auto 22px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background: #eef1ff;
+color: #5b6ee1;
+
+font-size: 27px;
+font-weight: 700;
+
+border: 6px solid #ffffff;
+
+box-shadow:
+    0 0 0 1px #e1e5f3,
+    0 8px 20px rgba(35, 45, 75, 0.08);
+
+transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+
+
+}
+
+.process-card:hover .process-icon {
+background: #5b6ee1;
+color: #ffffff;
+transform: scale(1.08);
+}
+
+/* AI icon */
+
+.process-icon span {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* =========================================
+CARD CONTENT
+========================================= */
+
+.process-card h4 {
+margin: 0 0 12px;
+
+
+font-size: 20px;
+font-weight: 700;
+
+color: #172033;
+
+
+}
+
+.process-card p {
+margin: 0;
+
+font-size: 14px;
+line-height: 1.7;
+
+color: #737b8c;
+
+
+}
+
+/* =========================================
+RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+
+.workflow-section {
+    padding: 75px 0;
+}
+
+.section-heading {
+    margin-bottom: 50px;
+}
+
+.section-heading h2 {
+    font-size: 32px;
+}
+
+.workflow-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px 25px;
+}
+
+.workflow-wrapper::before {
+    display: none;
+}
+```
+
+}
+
+/* =========================================
+RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 575px) {
+
+```
+.workflow-section {
+    padding: 60px 0;
+}
+
+.section-heading {
+    margin-bottom: 40px;
+    padding: 0 15px;
+}
+
+.section-heading h2 {
+    font-size: 28px;
+}
+
+.section-heading p {
+    font-size: 14px;
+}
+
+.workflow-wrapper {
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.process-card {
+    padding: 35px 25px 28px;
+}
+
+
+}
+/* =====================================================
+TECHNOLOGY STACK
+===================================================== */
+
+.technology-section {
+position: relative;
+padding: 100px 0;
+
+
+background:
+    radial-gradient(
+        circle at 15% 20%,
+        rgba(91, 110, 225, 0.15),
+        transparent 30%
+    ),
+    radial-gradient(
+        circle at 85% 80%,
+        rgba(68, 190, 180, 0.10),
+        transparent 30%
+    ),
+    #101827;
+
+overflow: hidden;
+
+}
+
+/* Decorative background */
+
+.technology-section::before {
+content: "";
+position: absolute;
+
+width: 420px;
+height: 420px;
+
+border: 1px solid rgba(255, 255, 255, 0.05);
+border-radius: 50%;
+
+top: -200px;
+right: -150px;
+
+
+}
+
+.technology-section::after {
+content: "";
+position: absolute;
+width: 300px;
+height: 300px;
+
+border: 1px solid rgba(255, 255, 255, 0.04);
+border-radius: 50%;
+
+bottom: -180px;
+left: -100px;
+
+
+}
+
+/* =====================================================
+HEADING
+===================================================== */
+
+.tech-heading {
+position: relative;
+z-index: 2;
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+
+gap: 50px;
+
+margin-bottom: 60px;
+
+
+}
+
+.tech-label {
+display: inline-block;
+
+
+margin-bottom: 15px;
+
+font-size: 12px;
+font-weight: 700;
+
+letter-spacing: 2.5px;
+
+color: #8d9af0;
+
+
+}
+
+.tech-heading h2 {
+margin: 0;
+font-size: 42px;
+line-height: 1.2;
+
+font-weight: 700;
+
+color: #ffffff;
+
+
+}
+
+.tech-heading h2 span {
+color: #8d9af0;
+}
+
+.tech-heading > p {
+max-width: 480px;
+margin: 0;
+
+font-size: 15px;
+line-height: 1.8;
+
+color: #aeb6c8;
+
+}
+/* =====================================================
+   TECHNOLOGY GRID
+===================================================== */
+
+.technology-grid {
+    position: relative;
+    z-index: 2;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+/* =========================================================
+   TECHNOLOGY STACK - LIGHT THEME
+   ========================================================= */
+
+.technology-section {
+    padding: 85px 0;
+    background: linear-gradient(
+        135deg,
+        #dae7f4 0%,
+        #e8edf7 50%,
+        #ead9e9 100%
+    );
+}
+
+.technology-section .section-title,
+.technology-section .tech-heading {
+    color: var(--dark);
+}
+
+.technology-section .section-subtitle {
+    color: var(--muted);
+}
+
+.technology-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.technology-card {
+    position: relative;
+    height: 100%;
+    padding: 28px 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.technology-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.92);
+    border-color: #aec5eb;
+    box-shadow: var(--shadow);
+}
+
+.tech-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 15px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-size: 25px;
+}
+
+.technology-card h3,
+.tech-content h3 {
+    color: var(--dark);
+    font-size: 1.05rem;
+    font-weight: 750;
+    margin-bottom: 8px;
+}
+
+.tech-content p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 0;
+}
+
+.technology-number {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    color: #c5d2ea;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.tech-category {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--primary-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.tech-line {
+    width: 35px;
+    height: 3px;
+    margin-top: 15px;
+    border-radius: 10px;
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--pink)
+    );
+}
+
+
+/* =========================================================
+   TECHNOLOGY STACK - RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .technology-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 767.98px) {
+
+    .technology-section {
+        padding: 55px 0;
+    }
+
+    .technology-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .technology-card {
+        padding: 24px 20px;
+    }
+
+}
+
+</style>
+<!-- =====================================================
+     HERO SECTION
+====================================================== -->
+
+<section class="hero">
+
+<div class="container">
+
+    <div class="row align-items-center">
+
+        <!-- LEFT SIDE CONTENT -->
+        <div class="col-lg-7">
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    MACHINE LEARNING
+                    <span>•</span>
+                    MRI ANALYSIS
+                </div>
+
+                <h1>
+                    Alzheimer's
+                    <br>
+                    <span>Disease Prediction</span>
+                </h1>
+
+                <p class="hero-text">
+                    A deep learning-based academic prototype
+                    for classifying brain MRI images into
+                    four dataset-defined categories.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="{% url 'upload' %}"
+                       class="btn btn-primary btn-lg">
+
+                        Analyze MRI
+                        <span>→</span>
+
+                    </a>
+
+                    <a href="{% url 'about' %}"
+                       class="btn btn-light btn-lg">
+
+                        Explore Project
+
+                    </a>
+
+                </div>
+
+                
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE BRAIN VISUAL -->
+        <div class="col-lg-5">
+
+            <div class="brain-visual">
+
+                <div class="scan-circle">
+
+                    <div class="scan-line"></div>
+
+                    <span class="brain-large">
+                        🧠
+                    </span>
+
+                </div>
+
+
+                <!-- TOP FLOATING CARD -->
+                <div class="floating-card card-one">
+
+                    <strong>4</strong>
+
+                    <span>
+                        Categories
+                    </span>
+
+                </div>
+
+
+                <!-- BOTTOM FLOATING CARD -->
+                <div class="floating-card card-two">
+
+                    <strong>AI</strong>
+
+                    <span>
+                        Deep Learning
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     HOW IT WORKS
+====================================================== -->
+<section class="section-padding workflow-section">
+
+
+<div class="container">
+
+    <!-- Section Heading -->
+    <div class="section-heading text-center">
+
+        <span class="section-label">
+            HOW IT WORKS
+        </span>
+
+        <h2>
+            From MRI Image to Classification Result
+        </h2>
+
+        <p>
+            Follow four simple steps to process an MRI image
+            through the AlzheimerAI application.
+        </p>
+
+    </div>
+
+
+    <!-- Workflow -->
+    <div class="workflow-wrapper">
+
+        <!-- STEP 1 -->
+        <div class="process-card">
+
+            <div class="process-number">
+                01
+            </div>
+
+            <div class="process-icon">
+                <span>↑</span>
+            </div>
+
+            <h4>
+                Upload MRI
+            </h4>
+
+            <p>
+                Upload a supported brain MRI image
+                through the application.
+            </p>
+
+        </div>
+
+
+        <!-- STEP 2 -->
+        <div class="process-card">
+
+            <div class="process-number">
+                02
+            </div>
+
+            <div class="process-icon">
+                <span>◌</span>
+            </div>
+
+            <h4>
+                Preprocess
+            </h4>
+
+            <p>
+                The image is resized and normalized
+                according to the model pipeline.
+            </p>
+
+        </div>
+
+
+        <!-- STEP 3 -->
+        <div class="process-card">
+
+            <div class="process-number">
+                03
+            </div>
+
+            <div class="process-icon">
+                <span>AI</span>
+            </div>
+
+            <h4>
+                Classify
+            </h4>
+
+            <p>
+                The trained Keras model calculates
+                probabilities for each category.
+            </p>
+
+        </div>
+
+
+        <!-- STEP 4 -->
+        <div class="process-card">
+
+            <div class="process-number">
+                04
+            </div>
+
+            <div class="process-icon">
+                <span>✓</span>
+            </div>
+
+            <h4>
+                View Result
+            </h4>
+
+            <p>
+                View the predicted category and
+                probability information.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     ABOUT THE SYSTEM
+====================================================== -->
+
+<section class="section-padding">
+
+
+<div class="container">
+
+    <div class="row align-items-center g-5">
+
+        <!-- LEFT -->
+        <div class="col-lg-6">
+
+            <div class="section-heading">
+
+                <span>
+                    ABOUT THE SYSTEM
+                </span>
+
+                <h2>
+                    Brain MRI classification
+                </h2>
+
+            </div>
+
+            <p>
+                This application is an academic machine
+                learning project developed to classify
+                brain MRI images using a trained deep
+                learning model.
+            </p>
+
+            <p>
+                The system accepts an MRI image, performs
+                the required preprocessing and passes the
+                image to the trained classification model.
+                The resulting class probabilities are then
+                presented to the user.
+            </p>
+
+            <a href="{% url 'about' %}"
+               class="btn btn-primary">
+
+                Learn About the Project
+                <span>→</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- RIGHT -->
+        <div class="col-lg-6">
+
+            <div class="workflow-card">
+
+                <div class="workflow-number">
+                    AI
+                </div>
+
+                <h4>
+                    ResNet50 Transfer Learning
+                </h4>
+
+                <p>
+                    The project uses a ResNet50-based
+                    transfer learning approach for
+                    brain MRI image classification.
+                </p>
+
+
+                <div class="info-divider"></div>
+
+
+                <h5>
+                    Image Preprocessing
+                </h5>
+
+                <p>
+                    Uploaded images are converted to RGB,
+                    resized to
+                    <strong>224 × 224 pixels</strong>
+                    and normalized before prediction.
+                </p>
+
+
+                <h5>
+                    Classification
+                </h5>
+
+                <p>
+                    The trained model generates probability
+                    values for the four categories represented
+                    in the dataset.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+<br><br><br><br>
+<!-- =====================================================
+     CLASSIFICATION CATEGORIES
+====================================================== -->
+
+<section class="categories-section">
+
+
+<div class="container">
+
+    <div class="section-heading text-center">
+
+        <span>
+            MODEL OUTPUT
+        </span>
+
+        <h2>
+            Four Classification Categories
+        </h2>
+
+        <p>
+            The trained model classifies MRI images
+            according to the categories represented
+            in the dataset.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- NON DEMENTED -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="category-card">
+
+                <small>01</small>
+
+                <h4>
+                    NonDemented
+                </h4>
+
+                <p>
+                    Dataset-defined category for
+                    non-demented MRI images.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- VERY MILD -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="category-card">
+
+                <small>02</small>
+
+                <h4>
+                    VeryMildDemented
+                </h4>
+
+                <p>
+                    Dataset-defined category representing
+                    very mild dementia classification.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MILD -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="category-card">
+
+                <small>03</small>
+
+                <h4>
+                    MildDemented
+                </h4>
+
+                <p>
+                    Dataset-defined category representing
+                    mild dementia classification.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MODERATE -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="category-card">
+
+                <small>04</small>
+
+                <h4>
+                    ModerateDemented
+                </h4>
+
+                <p>
+                    Dataset-defined category representing
+                    moderate dementia classification.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+<!-- =====================================================
+     TECHNOLOGY STACK
+====================================================== -->
+
+<section class="technology-section">
+
+
+<div class="container">
+
+    <!-- Section Heading -->
+    <div class="tech-heading">
+
+        <div>
+            <span class="tech-label">
+                TECHNOLOGY STACK
+            </span>
+
+            <h2>
+                Technologies Behind<br>
+                <span>AlzheimerAI</span>
+            </h2>
+        </div>
+
+        <p>
+            The application combines machine learning,
+            deep learning and modern web development
+            technologies to process MRI images and
+            generate classification results.
+        </p>
+
+    </div>
+
+
+    <!-- Technology Cards -->
+    <div class="technology-grid">
+
+        <!-- PYTHON -->
+        <div class="technology-card">
+
+            <div class="tech-top">
+                <div class="tech-icon python-icon">
+                    PY
+                </div>
+
+            
+            </div>
+
+            <div class="tech-content">
+
+                <span class="tech-category">
+                    PROGRAMMING
+                </span>
+
+                <h4>
+                    Python
+                </h4>
+
+                <p>
+                    Used for machine learning, image
+                    processing and application logic.
+                </p>
+
+            </div>
+
+            <div class="tech-line"></div>
+
+        </div>
+
+
+        <!-- TENSORFLOW / KERAS -->
+        <div class="technology-card">
+
+            <div class="tech-top">
+                <div class="tech-icon tensorflow-icon">
+                    TF
+                </div>
+
+                
+            </div>
+
+            <div class="tech-content">
+
+                <span class="tech-category">
+                    DEEP LEARNING
+                </span>
+
+                <h4>
+                    TensorFlow / Keras
+                </h4>
+
+                <p>
+                    Used to develop and run the deep
+                    learning classification model.
+                </p>
+
+            </div>
+
+            <div class="tech-line"></div>
+
+        </div>
+
+
+        <!-- RESNET50 -->
+        <div class="technology-card">
+
+            <div class="tech-top">
+                <div class="tech-icon resnet-icon">
+                    R50
+                </div>
+
+                
+            </div>
+
+            <div class="tech-content">
+
+                <span class="tech-category">
+                    TRANSFER LEARNING
+                </span>
+
+                <h4>
+                    ResNet50
+                </h4>
+
+                <p>
+                    Transfer learning architecture used
+                    for MRI image classification.
+                </p>
+
+            </div>
+
+            <div class="tech-line"></div>
+
+        </div>
+
+
+        <!-- DJANGO -->
+        <div class="technology-card">
+
+            <div class="tech-top">
+                <div class="tech-icon django-icon">
+                    DJ
+                </div>
+
+                
+            </div>
+
+            <div class="tech-content">
+
+                <span class="tech-category">
+                    WEB FRAMEWORK
+                </span>
+
+                <h4>
+                    Django
+                </h4>
+
+                <p>
+                    Web framework used for the MRI upload
+                    and prediction interface.
+                </p>
+
+            </div>
+
+            <div class="tech-line"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- =====================================================
+     DISCLAIMER
+====================================================== -->
+
+<section class="disclaimer">
+
+
+<div class="container">
+
+    <div class="disclaimer-box">
+
+        <strong>
+            ⚠ Academic &amp; Research Use
+        </strong>
+
+        <p>
+            This application is an academic machine
+            learning prototype for brain MRI image
+            classification. It is not intended to provide
+            a clinical diagnosis or replace professional
+            medical evaluation. Clinical decisions should
+            be made by qualified healthcare professionals.
+        </p>
+
+    </div>
+
+</div>
+
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,372 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="NeuroForecast - Alzheimer's Disease Prediction using MRI and Deep Learning.">
+
+    <title>
+        {% block title %}
+            NeuroForecast
+        {% endblock %}
+    </title>
+
+    <!-- Bootstrap 5.3.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Main Project CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'alzhmri/css/style.css' %}"
+    >
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand"
+           href="{% url 'home' %}">
+
+            <span class="brand-icon">🧠</span>
+
+            <span class="brand-name">
+                NeuroForecast
+            </span>
+
+        </a>
+
+
+        <!-- Mobile Menu Button -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- Navigation Links -->
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavbar"
+        >
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <!-- Home -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'home' %}"
+                    >
+                        Home
+                    </a>
+
+                </li>
+
+
+                <!-- About -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'about' %}"
+                    >
+                        About
+                    </a>
+
+                </li>
+
+
+                <!-- Analyze -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'upload' %}"
+                    >
+                        Analyze
+                    </a>
+
+                </li>
+
+
+                <!-- Recommendation -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'recommendations' %}"
+                    >
+                        Recommendation
+                    </a>
+
+                </li>
+
+
+                <!-- History -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'history' %}"
+                    >
+                        History
+                    </a>
+
+                </li>
+
+
+                <!-- Analyze MRI Button -->
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="nav-link nav-button"
+                        href="{% url 'upload' %}"
+                    >
+                        Analyze MRI
+                    </a>
+
+                </li>
+
+
+                <!-- Logout -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link logout-link"
+                        href="{% url 'logout' %}"
+                    >
+                        Logout
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     DJANGO MESSAGES
+========================= -->
+
+{% if messages %}
+
+<div class="container message-container">
+
+    {% for message in messages %}
+
+    <div
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+    >
+
+        {{ message }}
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+
+            <!-- Footer About -->
+            <div class="col-lg-6">
+
+                <div class="footer-brand">
+
+                    <span class="footer-brand-icon">
+                        🧠
+                    </span>
+
+                    NeuroForecast
+
+                </div>
+
+
+                <p>
+                    Alzheimer's Disease Prediction
+                    Using Machine Learning.
+                </p>
+
+
+                <p>
+                    An academic research prototype for
+                    MRI image classification.
+                </p>
+
+            </div>
+
+
+            <!-- Explore -->
+            <div class="col-lg-3">
+
+                <h5>
+                    Explore
+                </h5>
+
+
+                <ul class="footer-links">
+
+                    <li>
+                        <a href="{% url 'about' %}">
+                            About
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="{% url 'history' %}">
+                            History
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="{% url 'recommendations' %}">
+                            Health Education
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- Analysis -->
+            <div class="col-lg-3">
+
+                <h5>
+                    Analysis
+                </h5>
+
+
+                <ul class="footer-links">
+
+                    <li>
+
+                        <a href="{% url 'upload' %}">
+                            Analyze MRI
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 NeuroForecast
+            </span>
+
+            <span>
+                MCA Academic Project
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     BOOTSTRAP JS
+========================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =========================
+     PROJECT JS
+========================= -->
+
+<script
+    src="{% static 'alzhmri/js/script.js' %}">
+</script>
+
+
+{% block extra_js %}
+{% endblock %}
+
+
+</body>
+
+</html>

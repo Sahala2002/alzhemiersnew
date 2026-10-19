@@ -1,0 +1,471 @@
+{% extends "alzhmri/base.html" %}
+
+{% block title %}
+User Activity | AlzheimerAI
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.user-activity-page {
+    background: #f6f8fc;
+    min-height: 100vh;
+    padding: 40px 0 70px;
+}
+
+.activity-header {
+    margin-bottom: 30px;
+}
+
+.activity-header h1 {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 8px 0;
+}
+
+.activity-header p {
+    color: #777;
+}
+
+.back-button {
+    margin-bottom: 20px;
+}
+
+
+/* USER INFO */
+
+.info-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.info-label {
+    display: block;
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* MAIN CARD */
+
+.activity-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 30px;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.activity-card h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+
+/* TABLE */
+
+.table th {
+    font-size: 13px;
+    color: #777;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+
+/* MRI */
+
+.mri-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 9px;
+    border: 1px solid #eee;
+}
+
+
+/* EMPTY */
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #888;
+}
+
+</style>
+
+
+<section class="user-activity-page">
+
+<div class="container">
+
+
+    <!-- ================================================= -->
+    <!-- BACK -->
+    <!-- ================================================= -->
+
+    <div class="back-button">
+
+        <a
+            href="{% url 'admin_dashboard' %}"
+            class="btn btn-outline-primary">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="activity-header">
+
+        <span>
+            USER ACTIVITY
+        </span>
+
+        <h1>
+            {{ selected_user.username }}
+        </h1>
+
+        <p>
+
+            {{ selected_user.email|default:"No email address" }}
+
+        </p>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- USER INFORMATION -->
+    <!-- ================================================= -->
+
+    <div class="row g-4">
+
+
+        <!-- STATUS -->
+
+        <div class="col-lg-4">
+
+            <div class="info-card">
+
+                <span class="info-label">
+                    ACCOUNT STATUS
+                </span>
+
+                <div class="info-value">
+
+                    {% if selected_user.is_active %}
+
+                        <span class="text-success">
+                            Active
+                        </span>
+
+                    {% else %}
+
+                        <span class="text-secondary">
+                            Inactive
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOINED -->
+
+        <div class="col-lg-4">
+
+            <div class="info-card">
+
+                <span class="info-label">
+                    REGISTERED DATE
+                </span>
+
+                <div class="info-value">
+
+                    {{ selected_user.date_joined|date:"d M Y" }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MRI COUNT -->
+
+        <div class="col-lg-4">
+
+            <div class="info-card">
+
+                <span class="info-label">
+                    MRI ANALYSES
+                </span>
+
+                <div class="info-value">
+
+                    {{ predictions|length }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- ACTIVITY HISTORY -->
+    <!-- ================================================= -->
+
+    <div class="activity-card">
+
+        <h3>
+            Activity History
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ACTIVITY
+                        </th>
+
+                        <th>
+                            DESCRIPTION
+                        </th>
+
+                        <th>
+                            DATE & TIME
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for activity in activities %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ activity.get_activity_type_display }}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ activity.description }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ activity.created_at|date:"d M Y, h:i A" }}
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="3">
+
+                            <div class="empty">
+
+                                No activity recorded for this user.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- USER MRI HISTORY -->
+    <!-- ================================================= -->
+
+    <div class="activity-card">
+
+        <h3>
+            MRI Prediction History
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            MRI
+                        </th>
+
+                        <th>
+                            PREDICTED CLASS
+                        </th>
+
+                        <th>
+                            CONFIDENCE
+                        </th>
+
+                        <th>
+                            DATE & TIME
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for prediction in predictions %}
+
+                    <tr>
+
+
+                        <!-- MRI -->
+
+                        <td>
+
+                            {% if prediction.uploaded_image %}
+
+                                <img
+                                    src="{{ prediction.uploaded_image.url }}"
+                                    class="mri-image"
+                                    alt="Uploaded MRI">
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CLASS -->
+
+                        <td>
+
+                            <strong>
+
+                                {{ prediction.get_predicted_class_display }}
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- CONFIDENCE -->
+
+                        <td>
+
+                            {{ prediction.confidence|floatformat:2 }}%
+
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td>
+
+                            {{ prediction.created_at|date:"d M Y, h:i A" }}
+
+                        </td>
+
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="4">
+
+                            <div class="empty">
+
+                                This user has not uploaded
+                                any MRI images yet.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</section>
+
+{% endblock %}

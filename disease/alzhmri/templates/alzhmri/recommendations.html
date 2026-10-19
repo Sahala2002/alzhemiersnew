@@ -1,0 +1,1444 @@
+{% extends "alzhmri/base.html" %}
+
+{% block title %}Health Education | AlzheimerAI{% endblock %}
+
+{% block content %}
+<style>
+:root {
+    --rec-primary: #197c8c;
+    --rec-primary-dark: #145f6c;
+    --rec-primary-light: #eaf6f8;
+
+    --rec-navy: #16324f;
+    --rec-dark: #173b52;
+
+    --rec-text: #40566a;
+    --rec-muted: #687d8f;
+
+    --rec-background: #f7fafc;
+    --rec-white: #ffffff;
+
+    --rec-border: #dce7ed;
+    --rec-border-light: #e7eef2;
+
+    --rec-shadow:
+        0 8px 25px rgba(22, 50, 79, 0.06);
+
+    --rec-shadow-hover:
+        0 15px 35px rgba(22, 50, 79, 0.11);
+}
+
+
+/* =========================================================
+   RECOMMENDATION HERO
+   ========================================================= */
+
+.recommendation-hero {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 105px 0 100px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf6f8 0%,
+            #f7fbfc 50%,
+            #e8f2f6 100%
+        );
+}
+
+
+/* Decorative circle - top right */
+
+.recommendation-hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    top: -230px;
+    right: -80px;
+
+    border-radius: 50%;
+
+    background: rgba(25, 124, 140, 0.07);
+}
+
+
+/* Decorative circle - bottom left */
+
+.recommendation-hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 270px;
+    height: 270px;
+
+    bottom: -170px;
+    left: -90px;
+
+    border-radius: 50%;
+
+    background: rgba(25, 124, 140, 0.05);
+}
+
+
+/* Hero content */
+
+.recommendation-hero .container {
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   HERO LABEL
+   ========================================================= */
+
+.recommendation-hero-label {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 20px;
+
+    padding: 8px 15px;
+
+    border: 1px solid rgba(25, 124, 140, 0.18);
+
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    color: var(--rec-primary);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+
+    text-transform: uppercase;
+}
+
+
+/* Small dot */
+
+.recommendation-hero-label::before {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--rec-primary);
+}
+
+
+/* =========================================================
+   HERO TITLE
+   ========================================================= */
+
+.recommendation-hero h1 {
+    max-width: 900px;
+
+    margin: 0 0 22px;
+
+    color: var(--rec-navy);
+
+    font-size: clamp(40px, 5vw, 64px);
+
+    font-weight: 800;
+
+    line-height: 1.08;
+
+    letter-spacing: -1.5px;
+}
+
+
+/* Highlighted part */
+
+.recommendation-hero h1 span {
+    display: block;
+
+    color: var(--rec-primary);
+}
+
+
+/* =========================================================
+   HERO DESCRIPTION
+   ========================================================= */
+
+.recommendation-hero p {
+    max-width: 760px;
+
+    margin: 0;
+
+    color: var(--rec-muted);
+
+    font-size: 18px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MAIN RECOMMENDATION SECTION
+   ========================================================= */
+
+.recommendation-section {
+    position: relative;
+
+    padding: 90px 0 100px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8fafc 0%,
+            #ffffff 100%
+        );
+}
+
+
+/* =========================================================
+   INTRODUCTION
+   ========================================================= */
+
+.recommendation-intro {
+    max-width: 850px;
+
+    margin: 0 auto 70px;
+
+    text-align: center;
+}
+
+
+/* Section label */
+
+.recommendation-intro .section-tag {
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color: var(--rec-primary);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+/* Introduction heading */
+
+.recommendation-intro h2 {
+    margin: 0 0 18px;
+
+    color: var(--rec-navy);
+
+    font-size: 39px;
+
+    font-weight: 750;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.5px;
+}
+
+
+/* Introduction paragraph */
+
+.recommendation-intro p {
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    color: var(--rec-muted);
+
+    font-size: 16px;
+
+    line-height: 1.85;
+}
+
+
+/* =========================================================
+   RECOMMENDATION TIMELINE
+   ========================================================= */
+
+.recommendation-list {
+    position: relative;
+
+    max-width: 1050px;
+
+    margin: 0 auto;
+}
+
+
+/* Vertical timeline */
+
+.recommendation-list::before {
+    content: "";
+
+    position: absolute;
+
+    top: 20px;
+    bottom: 20px;
+
+    left: 39px;
+
+    width: 2px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #c9e2e7,
+            #dcebee,
+            #c9e2e7
+        );
+}
+
+
+/* =========================================================
+   RECOMMENDATION ITEM
+   ========================================================= */
+
+.recommendation-card {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 78px 1fr;
+
+    gap: 26px;
+
+    margin-bottom: 42px;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+
+    overflow: visible;
+}
+
+
+/* Remove default hover from old card design */
+
+.recommendation-card:hover {
+    transform: none;
+
+    border: none;
+
+    box-shadow: none;
+}
+
+
+/* Last item */
+
+.recommendation-card:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   NUMBER CIRCLE
+   ========================================================= */
+
+.recommendation-number {
+    position: relative;
+
+    z-index: 5;
+
+    width: 78px;
+    height: 78px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    border: 7px solid #e8f5f7;
+
+    color: var(--rec-primary);
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+
+    box-shadow:
+        0 6px 20px rgba(22, 50, 79, 0.10);
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* Number hover */
+
+.recommendation-card:hover .recommendation-number {
+    background: var(--rec-primary);
+
+    color: #ffffff;
+
+    border-color: #d8eff2;
+
+    transform: scale(1.06);
+}
+
+
+/* =========================================================
+   CONTENT PANEL
+   ========================================================= */
+
+.recommendation-content {
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    min-height: 130px;
+
+    padding: 28px 32px;
+
+    background: var(--rec-white);
+
+    border: 1px solid var(--rec-border);
+
+    border-radius: 15px;
+
+    box-shadow: var(--rec-shadow);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* Arrow pointing toward timeline */
+
+.recommendation-content::before {
+    content: "";
+
+    position: absolute;
+
+    left: -9px;
+
+    top: 31px;
+
+    width: 17px;
+    height: 17px;
+
+    background: #ffffff;
+
+    border-left: 1px solid var(--rec-border);
+
+    border-bottom: 1px solid var(--rec-border);
+
+    transform: rotate(45deg);
+
+    transition:
+        border-color 0.3s ease;
+}
+
+
+/* Content hover */
+
+.recommendation-card:hover .recommendation-content {
+    transform: translateX(7px);
+
+    border-color: #c5dce3;
+
+    box-shadow: var(--rec-shadow-hover);
+}
+
+
+.recommendation-card:hover .recommendation-content::before {
+    border-color: #c5dce3;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.recommendation-icon {
+    flex: 0 0 50px;
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #eaf7f8,
+            #f2f9fa
+        );
+
+    border: 1px solid #d9ebee;
+
+    font-size: 22px;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+
+/* Icon hover */
+
+.recommendation-card:hover .recommendation-icon {
+    transform: translateY(-2px);
+
+    background: #e1f2f4;
+}
+
+
+/* =========================================================
+   CONTENT HEADING
+   ========================================================= */
+
+.recommendation-content h3 {
+    margin: 0 0 11px;
+
+    color: var(--rec-dark);
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   CONTENT LIST
+   ========================================================= */
+
+.recommendation-content ul {
+    margin: 0;
+
+    padding-left: 20px;
+
+    color: var(--rec-text);
+
+    font-size: 14.5px;
+
+    line-height: 1.8;
+}
+
+
+.recommendation-content li {
+    margin-bottom: 6px;
+
+    padding-left: 4px;
+}
+
+
+.recommendation-content li:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Bullet */
+
+.recommendation-content li::marker {
+    color: var(--rec-primary);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MEDICAL NOTE
+   ========================================================= */
+
+.recommendation-note {
+    max-width: 1050px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin: 65px auto 0;
+
+    padding: 30px 32px;
+
+    border: 1px solid #c9e2e7;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf8fa 0%,
+            #f8fcfd 100%
+        );
+
+    box-shadow:
+        0 7px 22px rgba(22, 50, 79, 0.04);
+}
+
+
+/* =========================================================
+   MEDICAL NOTE ICON
+   ========================================================= */
+
+.note-icon {
+    flex: 0 0 52px;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    border: 1px solid #d9e9ed;
+
+    color: var(--rec-primary);
+
+    font-size: 24px;
+
+    box-shadow:
+        0 5px 15px rgba(22, 50, 79, 0.06);
+}
+
+
+/* =========================================================
+   MEDICAL NOTE HEADING
+   ========================================================= */
+
+.recommendation-note h3 {
+    margin: 1px 0 9px;
+
+    color: var(--rec-navy);
+
+    font-size: 19px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   MEDICAL NOTE TEXT
+   ========================================================= */
+
+.recommendation-note p {
+    margin: 0;
+
+    color: var(--rec-muted);
+
+    font-size: 14px;
+
+    line-height: 1.85;
+}
+
+
+/* =========================================================
+   OPTIONAL SECTION DIVIDER
+   ========================================================= */
+
+.recommendation-divider {
+    width: 55px;
+
+    height: 3px;
+
+    margin: 20px auto;
+
+    border-radius: 10px;
+
+    background: var(--rec-primary);
+}
+
+
+/* =========================================================
+   TABLET RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    /* Hero */
+
+    .recommendation-hero {
+        padding: 85px 0 80px;
+    }
+
+
+    .recommendation-hero h1 {
+        font-size: 48px;
+    }
+
+
+    .recommendation-hero p {
+        font-size: 17px;
+    }
+
+
+    /* Main section */
+
+    .recommendation-section {
+        padding: 75px 0 85px;
+    }
+
+
+    /* Intro */
+
+    .recommendation-intro h2 {
+        font-size: 34px;
+    }
+
+
+    /* Cards */
+
+    .recommendation-card {
+        grid-template-columns: 70px 1fr;
+
+        gap: 22px;
+    }
+
+
+    .recommendation-number {
+        width: 70px;
+        height: 70px;
+    }
+
+
+    .recommendation-list::before {
+        left: 35px;
+    }
+
+
+    .recommendation-content {
+        padding: 25px 27px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    /* Hero */
+
+    .recommendation-hero {
+        padding: 70px 0 65px;
+    }
+
+
+    .recommendation-hero h1 {
+        font-size: 38px;
+
+        letter-spacing: -0.7px;
+    }
+
+
+    .recommendation-hero p {
+        font-size: 16px;
+
+        line-height: 1.75;
+    }
+
+
+    /* Main section */
+
+    .recommendation-section {
+        padding: 65px 0 75px;
+    }
+
+
+    /* Intro */
+
+    .recommendation-intro {
+        margin-bottom: 50px;
+    }
+
+
+    .recommendation-intro h2 {
+        font-size: 29px;
+    }
+
+
+    .recommendation-intro p {
+        font-size: 15px;
+    }
+
+
+    /* Timeline */
+
+    .recommendation-list::before {
+        top: 15px;
+        bottom: 15px;
+
+        left: 25px;
+    }
+
+
+    /* Recommendation */
+
+    .recommendation-card {
+        grid-template-columns: 52px 1fr;
+
+        gap: 15px;
+
+        margin-bottom: 30px;
+    }
+
+
+    /* Number */
+
+    .recommendation-number {
+        width: 52px;
+        height: 52px;
+
+        border-width: 5px;
+
+        font-size: 11px;
+    }
+
+
+    /* Content */
+
+    .recommendation-content {
+        display: block;
+
+        min-height: auto;
+
+        padding: 22px;
+
+        border-radius: 13px;
+    }
+
+
+    /* Arrow */
+
+    .recommendation-content::before {
+        left: -7px;
+
+        top: 22px;
+
+        width: 13px;
+        height: 13px;
+    }
+
+
+    /* Icon */
+
+    .recommendation-icon {
+        margin-bottom: 14px;
+    }
+
+
+    /* Heading */
+
+    .recommendation-content h3 {
+        font-size: 19px;
+    }
+
+
+    /* Text */
+
+    .recommendation-content ul {
+        padding-left: 18px;
+
+        font-size: 13.5px;
+
+        line-height: 1.75;
+    }
+
+
+    /* Medical note */
+
+    .recommendation-note {
+        display: block;
+
+        margin-top: 45px;
+
+        padding: 24px;
+
+        border-radius: 13px;
+    }
+
+
+    .note-icon {
+        margin-bottom: 15px;
+    }
+
+
+    .recommendation-note h3 {
+        font-size: 18px;
+    }
+
+
+    .recommendation-note p {
+        font-size: 13.5px;
+
+        line-height: 1.75;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    /* Hero */
+
+    .recommendation-hero {
+        padding: 60px 0;
+    }
+
+
+    .recommendation-hero-label {
+        font-size: 10px;
+
+        padding: 7px 12px;
+
+        letter-spacing: 1.4px;
+    }
+
+
+    .recommendation-hero h1 {
+        font-size: 32px;
+    }
+
+
+    .recommendation-hero p {
+        font-size: 14px;
+    }
+
+
+    /* Introduction */
+
+    .recommendation-intro h2 {
+        font-size: 27px;
+    }
+
+
+    /* Timeline */
+
+    .recommendation-list::before {
+        left: 22px;
+    }
+
+
+    .recommendation-card {
+        grid-template-columns: 46px 1fr;
+
+        gap: 12px;
+    }
+
+
+    .recommendation-number {
+        width: 46px;
+        height: 46px;
+
+        border-width: 4px;
+
+        font-size: 10px;
+    }
+
+
+    /* Content */
+
+    .recommendation-content {
+        padding: 19px;
+    }
+
+
+    .recommendation-content h3 {
+        font-size: 18px;
+    }
+
+
+    .recommendation-content ul {
+        font-size: 13px;
+
+        line-height: 1.7;
+    }
+
+
+    /* Medical note */
+
+    .recommendation-note {
+        padding: 20px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .recommendation-card,
+    .recommendation-content,
+    .recommendation-number,
+    .recommendation-icon {
+        transition: none;
+    }
+
+}
+</style>
+
+<!-- Hero Section -->
+<section class="inner-hero">
+    <div class="container">
+        <div class="hero-label">HEALTH EDUCATION</div>
+
+        <h1>Alzheimer's Disease Care<br>& Recommendations</h1>
+
+        <p>
+            Practical guidance for supporting the safety, health,
+            independence, and quality of life of people living with
+            Alzheimer's disease.
+        </p>
+    </div>
+</section>
+
+
+<!-- Introduction -->
+<section class="section-padding recommendation-section">
+    <div class="container">
+
+        <div class="section-heading text-center">
+            <span class="section-tag">CARE GUIDANCE</span>
+
+            <h2>
+                Supporting Daily Life with Alzheimer's Disease
+            </h2>
+
+            <p>
+                Good care involves medical follow-up, a safe environment,
+                healthy lifestyle habits, meaningful activities, and
+                supportive communication.
+            </p>
+        </div>
+
+
+        <!-- Recommendations -->
+        <div class="recommendation-list">
+
+            <!-- 01 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    01
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        💊
+                    </div>
+
+                    <div>
+                        <h3>Medication Adherence</h3>
+
+                        <ul>
+                            <li>
+                                Take prescribed medicines regularly and
+                                at the correct time.
+                            </li>
+
+                            <li>
+                                Do not stop medicines without medical advice.
+                            </li>
+
+                            <li>
+                                Report unusual or adverse effects to
+                                the healthcare provider.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 02 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    02
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🩺
+                    </div>
+
+                    <div>
+                        <h3>Regular Medical Follow-up</h3>
+
+                        <ul>
+                            <li>
+                                Attend scheduled medical appointments.
+                            </li>
+
+                            <li>
+                                Cognitive function, behavior, nutrition,
+                                and general health can be monitored.
+                            </li>
+
+                            <li>
+                                Report sudden worsening of confusion,
+                                falls, fever, or significant behavioral changes.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 03 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    03
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🕐
+                    </div>
+
+                    <div>
+                        <h3>Maintain a Daily Routine</h3>
+
+                        <ul>
+                            <li>
+                                Maintain regular waking, meal, bathing,
+                                activity, and sleep times.
+                            </li>
+
+                            <li>
+                                Use calendars and clocks to provide
+                                orientation.
+                            </li>
+
+                            <li>
+                                Labels and reminder notes can help with
+                                everyday tasks.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 04 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    04
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🏠
+                    </div>
+
+                    <div>
+                        <h3>Safety Precautions</h3>
+
+                        <ul>
+                            <li>
+                                Keep floors clear and provide adequate
+                                lighting to reduce fall risks.
+                            </li>
+
+                            <li>
+                                Secure medicines, chemicals, and dangerous
+                                objects.
+                            </li>
+
+                            <li>
+                                Consider an identification card or
+                                medical-alert bracelet if wandering is a concern.
+                            </li>
+
+                            <li>
+                                Driving safety should be discussed with
+                                the healthcare team.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 05 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    05
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🥗
+                    </div>
+
+                    <div>
+                        <h3>Healthy Diet & Hydration</h3>
+
+                        <ul>
+                            <li>
+                                Encourage a balanced diet containing
+                                protein, fruits, vegetables, and whole grains.
+                            </li>
+
+                            <li>
+                                Encourage adequate fluid intake unless
+                                a healthcare professional has prescribed
+                                fluid restriction.
+                            </li>
+
+                            <li>
+                                Monitor for chewing, swallowing, or
+                                feeding difficulties.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 06 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    06
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🚶
+                    </div>
+
+                    <div>
+                        <h3>Physical Activity</h3>
+
+                        <ul>
+                            <li>
+                                Encourage safe and regular physical
+                                activity according to the person's ability.
+                            </li>
+
+                            <li>
+                                Walking and other simple exercises can
+                                be useful options.
+                            </li>
+
+                            <li>
+                                Encourage activities that the person
+                                enjoys and can perform safely.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 07 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    07
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🧩
+                    </div>
+
+                    <div>
+                        <h3>Cognitive & Social Activities</h3>
+
+                        <ul>
+                            <li>
+                                Encourage conversation, music, reading,
+                                puzzles, gardening, or familiar hobbies.
+                            </li>
+
+                            <li>
+                                Social interaction can provide emotional
+                                support and meaningful engagement.
+                            </li>
+
+                            <li>
+                                Activities should be adapted to avoid
+                                frustration and excessive fatigue.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 08 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    08
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        🌙
+                    </div>
+
+                    <div>
+                        <h3>Sleep Management</h3>
+
+                        <ul>
+                            <li>
+                                Maintain a regular sleep and wake schedule.
+                            </li>
+
+                            <li>
+                                Encourage daytime activity and exposure
+                                to natural light.
+                            </li>
+
+                            <li>
+                                Avoid excessive daytime sleeping when possible.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- 09 -->
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    09
+                </div>
+
+                <div class="recommendation-content">
+
+                    <div class="recommendation-icon">
+                        💬
+                    </div>
+
+                    <div>
+                        <h3>Communication</h3>
+
+                        <ul>
+                            <li>
+                                Speak slowly and use short, simple sentences.
+                            </li>
+
+                            <li>
+                                Ask one question at a time.
+                            </li>
+
+                            <li>
+                                Give the person enough time to respond.
+                            </li>
+
+                            <li>
+                                Avoid arguing or repeatedly correcting
+                                the person.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Medical Note -->
+        <div class="recommendation-note">
+
+            <div class="note-icon">
+                ⚕
+            </div>
+
+            <div>
+                <h3>Important Medical Note</h3>
+
+                <p>
+                    This information is intended for general health education
+                    and does not replace professional medical advice,
+                    diagnosis, or treatment. Alzheimer's disease affects
+                    individuals differently, so care plans should be
+                    individualized with guidance from qualified healthcare
+                    professionals.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

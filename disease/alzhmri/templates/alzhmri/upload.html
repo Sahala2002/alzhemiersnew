@@ -1,0 +1,1651 @@
+
+{% extends "alzhmri/base.html" %}
+
+{% block title %}
+Analyze MRI - AlzheimerAI
+{% endblock %}
+
+
+{% block content %}
+<style>
+
+/* =========================================================
+   ANALYZE MRI PAGE
+   Professional AlzheimerAI Design
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL BOX SIZING
+   ========================================================= */
+
+.mri-page,
+.mri-page *,
+.mri-page *::before,
+.mri-page *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   IMPORTANT:
+   Extra top padding prevents the heading from going
+   underneath the fixed navbar.
+   ========================================================= */
+
+.mri-page {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+
+    padding: 110px 20px 80px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f3f7fb 0%,
+            #f8fafc 100%
+        );
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.mri-container {
+    width: 100%;
+    max-width: 1020px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.page-header {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+
+.page-header h1 {
+    margin: 0;
+
+    color: #102f50;
+
+    font-size: 40px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.7px;
+}
+
+
+.page-header p {
+    margin: 12px 0 0;
+
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* Small line under heading */
+
+.page-header::after {
+    content: "";
+
+    display: block;
+
+    width: 55px;
+    height: 3px;
+
+    margin: 18px auto 0;
+
+    border-radius: 20px;
+
+    background: #2563eb;
+}
+
+
+/* =========================================================
+   MAIN UPLOAD CARD
+   ========================================================= */
+
+.upload-card {
+    width: 100%;
+
+    padding: 38px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 35px rgba(15, 39, 71, 0.08);
+}
+
+
+/* =========================================================
+   UPLOAD AREA
+   ========================================================= */
+
+.upload-area {
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+
+    padding: 65px 30px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f8fafc,
+            #f5f8fc
+        );
+
+    border: 2px dashed #9aafc4;
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.upload-area:hover {
+    border-color: #2563eb;
+
+    background: #f0f6ff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, 0.08);
+}
+
+
+.upload-area.dragover {
+    border-color: #2563eb;
+
+    background: #eff6ff;
+
+    transform: scale(1.005);
+
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================================
+   BRAIN ICON
+   ========================================================= */
+
+.upload-icon {
+    width: 82px;
+    height: 82px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    border: 1px solid #e0eaf3;
+
+    box-shadow:
+        0 7px 20px rgba(15, 39, 71, 0.08);
+
+    font-size: 46px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   UPLOAD HEADING
+   ========================================================= */
+
+.upload-area h2 {
+    margin: 0 0 9px;
+
+    color: #102f50;
+
+    font-size: 23px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   UPLOAD DESCRIPTION
+   ========================================================= */
+
+.upload-area p {
+    margin: 0 0 23px;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CHOOSE IMAGE BUTTON
+   ========================================================= */
+
+.choose-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 25px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 5px 14px rgba(37, 99, 235, 0.20);
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.choose-btn:hover {
+    background: #1d4ed8;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================================
+   DJANGO FILE INPUT
+   ========================================================= */
+
+.django-file-input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   FILE NAME
+   ========================================================= */
+
+.file-name {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 13px 16px;
+
+    text-align: center;
+
+    background: #f1f5f9;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    color: #475569;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+.file-name strong {
+    color: #102f50;
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
+.preview-container {
+    display: none;
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+}
+
+
+.preview-title {
+    margin-bottom: 18px;
+
+    color: #102f50;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+.preview-container img {
+    display: block;
+
+    max-width: 100%;
+
+    max-height: 360px;
+
+    margin: 0 auto;
+
+    border-radius: 10px;
+
+    object-fit: contain;
+
+    box-shadow:
+        0 5px 20px rgba(15, 39, 71, 0.10);
+}
+
+
+/* =========================================================
+   REMOVE IMAGE BUTTON
+   ========================================================= */
+
+.remove-btn {
+    margin-top: 17px;
+
+    padding: 7px 14px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #dc2626;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    border-radius: 5px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.remove-btn:hover {
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   ANALYZE BUTTON
+   ========================================================= */
+
+.analyze-btn {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 16px 20px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #102f50,
+            #163f69
+        );
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 18px rgba(15, 39, 71, 0.15);
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.analyze-btn:hover:not(:disabled) {
+    background:
+        linear-gradient(
+            135deg,
+            #163f69,
+            #1d4f80
+        );
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 9px 24px rgba(15, 39, 71, 0.20);
+}
+
+
+.analyze-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+
+.analyze-btn:disabled {
+    background: #94a3b8;
+
+    color: #ffffff;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   INFORMATION GRID
+   ========================================================= */
+
+.info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+
+    margin-top: 30px;
+}
+
+
+/* =========================================================
+   INFORMATION CARD
+   ========================================================= */
+
+.info-card {
+    min-height: 100px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 15px;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.info-card:hover {
+    background: #f1f6fb;
+
+    border-color: #cbd9e7;
+
+    transform: translateY(-2px);
+}
+
+
+.info-card strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #102f50;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.info-card span {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ACADEMIC NOTICE
+   ========================================================= */
+
+.notice {
+    margin-top: 30px;
+
+    padding: 18px 20px;
+
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+
+    border-left: 4px solid #2563eb;
+
+    border-radius: 10px;
+
+    color: #1e40af;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+.notice strong {
+    color: #163f69;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+.error-message {
+    margin-top: 20px;
+
+    padding: 14px 16px;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    border-left: 4px solid #dc2626;
+
+    border-radius: 8px;
+
+    color: #b91c1c;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DJANGO NON-FIELD ERRORS
+   ========================================================= */
+
+.form-errors {
+    margin-top: 20px;
+
+    padding: 14px 16px;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    border-left: 4px solid #dc2626;
+
+    border-radius: 8px;
+
+    color: #b91c1c;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   LOADING AREA
+   ========================================================= */
+
+.loading {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    color: #475569;
+
+    font-size: 14px;
+}
+
+
+.loading strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #102f50;
+}
+
+
+.loading p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SPINNER
+   ========================================================= */
+
+.spinner {
+    width: 38px;
+    height: 38px;
+
+    margin: 0 auto 12px;
+
+    border: 4px solid #dbeafe;
+
+    border-top: 4px solid #2563eb;
+
+    border-radius: 50%;
+
+    animation:
+        spin 0.8s linear infinite;
+}
+
+
+@keyframes spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .mri-page {
+        padding-top: 105px;
+    }
+
+
+    .upload-card {
+        padding: 30px;
+    }
+
+
+    .page-header h1 {
+        font-size: 36px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 750px) {
+
+    .mri-page {
+        min-height: auto;
+
+        padding:
+            95px
+            15px
+            60px;
+    }
+
+
+    .mri-container {
+        max-width: 100%;
+    }
+
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+
+    .page-header h1 {
+        font-size: 30px;
+
+        letter-spacing: -0.3px;
+    }
+
+
+    .page-header p {
+        font-size: 14px;
+    }
+
+
+    .upload-card {
+        padding: 20px;
+
+        border-radius: 14px;
+    }
+
+
+    .upload-area {
+        padding: 45px 18px;
+    }
+
+
+    .upload-icon {
+        width: 70px;
+        height: 70px;
+
+        font-size: 38px;
+    }
+
+
+    .upload-area h2 {
+        font-size: 20px;
+    }
+
+
+    .upload-area p {
+        font-size: 13px;
+    }
+
+
+    .choose-btn {
+        padding: 11px 20px;
+
+        font-size: 13px;
+    }
+
+
+    .info-grid {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    .info-card {
+        min-height: 85px;
+    }
+
+
+    .preview-container {
+        padding: 18px;
+    }
+
+
+    .preview-container img {
+        max-height: 280px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .mri-page {
+        padding:
+            90px
+            12px
+            50px;
+    }
+
+
+    .page-header h1 {
+        font-size: 27px;
+    }
+
+
+    .upload-card {
+        padding: 15px;
+    }
+
+
+    .upload-area {
+        padding: 38px 15px;
+    }
+
+
+    .upload-icon {
+        width: 62px;
+        height: 62px;
+
+        font-size: 33px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .upload-area h2 {
+        font-size: 18px;
+    }
+
+
+    .upload-area p {
+        font-size: 12px;
+    }
+
+
+    .analyze-btn {
+        padding: 14px;
+
+        font-size: 14px;
+    }
+
+
+    .notice {
+        padding: 15px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .upload-area,
+    .choose-btn,
+    .analyze-btn,
+    .info-card,
+    .remove-btn {
+        transition: none;
+    }
+
+
+    .spinner {
+        animation: none;
+    }
+
+}
+
+</style>
+
+
+
+<section class="mri-page">
+
+    <div class="mri-container">
+
+
+        <!-- =====================================
+             PAGE HEADER
+        ====================================== -->
+
+        <div class="page-header">
+
+            <h1>
+                Analyze Brain MRI
+            </h1>
+
+        
+        </div>
+
+
+        <!-- =====================================
+             UPLOAD CARD
+        ====================================== -->
+
+        <div class="upload-card">
+
+
+            <form
+                method="POST"
+                action="{% url 'upload' %}"
+                enctype="multipart/form-data"
+                id="uploadForm"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- =================================
+                     UPLOAD AREA
+                ================================== -->
+
+                <label
+                    for="id_uploaded_image"
+                    class="upload-area"
+                    id="uploadArea"
+                >
+
+                    <div class="upload-icon">
+                        🧠
+                    </div>
+
+
+                    <h2>
+                        Upload Brain MRI Image
+                    </h2>
+
+
+                    <p>
+                        Select a brain MRI image from
+                        your computer
+                    </p>
+
+
+                    <span class="choose-btn">
+                        Choose MRI Image
+                    </span>
+
+                </label>
+
+
+                <!-- =================================
+                     DJANGO FILE INPUT
+                ================================== -->
+
+                <div class="django-file-input">
+
+                    {{ form.uploaded_image }}
+
+                </div>
+
+
+                <!-- =================================
+                     FIELD ERRORS
+                ================================== -->
+
+                {% if form.uploaded_image.errors %}
+
+                    <div class="error-message">
+
+                        {{ form.uploaded_image.errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- =================================
+                     NON-FIELD ERRORS
+                ================================== -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- =================================
+                     FILE NAME
+                ================================== -->
+
+                <div
+                    id="fileName"
+                    class="file-name"
+                ></div>
+
+
+                <!-- =================================
+                     IMAGE PREVIEW
+                ================================== -->
+
+                <div
+                    id="previewContainer"
+                    class="preview-container"
+                >
+
+                    <div class="preview-title">
+                        MRI Image Preview
+                    </div>
+
+
+                    <img
+                        id="imagePreview"
+                        src=""
+                        alt="MRI Preview"
+                    >
+
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        id="removeButton"
+                        class="remove-btn"
+                    >
+                        Remove Image
+                    </button>
+
+                </div>
+
+
+                <!-- =================================
+                     ANALYZE BUTTON
+                ================================== -->
+
+                <button
+                    type="submit"
+                    class="analyze-btn"
+                    id="analyzeButton"
+                    disabled
+                >
+                    Analyze MRI 
+                </button>
+
+
+                <!-- =================================
+                     LOADING
+                ================================== -->
+
+                <div
+                    id="loadingBox"
+                    class="loading"
+                >
+
+                    <div class="spinner"></div>
+
+                    <strong>
+                        Analyzing MRI image...
+                    </strong>
+
+                    <p>
+                        Please wait while the AI model
+                        processes the image.
+                    </p>
+
+                </div>
+
+
+            </form>
+
+
+            <!-- =====================================
+                 INFORMATION
+            ====================================== -->
+
+            <div class="info-grid">
+
+
+                <div class="info-card">
+
+                    <strong>
+                        Supported Formats
+                    </strong>
+
+                    <span>
+                        JPG, JPEG, PNG
+                    </span>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <strong>
+                        Maximum Size
+                    </strong>
+
+                    <span>
+                        10 MB
+                    </span>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <strong>
+                        AI Classification
+                    </strong>
+
+                    <span>
+                        4 Alzheimer's Classes
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =====================================
+                 NOTICE
+            ====================================== -->
+
+            <div class="notice">
+
+                <strong>
+                    Academic AI Notice:
+                </strong>
+
+                This Alzheimer's MRI classification
+                system is an academic project.
+                The prediction is intended for educational
+                and research purposes and should not be
+                considered a medical diagnosis.
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =========================================
+           GET ELEMENTS
+        ========================================= */
+
+        const imageInput =
+            document.getElementById(
+                "id_uploaded_image"
+            );
+
+
+        const uploadArea =
+            document.getElementById(
+                "uploadArea"
+            );
+
+
+        const fileName =
+            document.getElementById(
+                "fileName"
+            );
+
+
+        const previewContainer =
+            document.getElementById(
+                "previewContainer"
+            );
+
+
+        const imagePreview =
+            document.getElementById(
+                "imagePreview"
+            );
+
+
+        const removeButton =
+            document.getElementById(
+                "removeButton"
+            );
+
+
+        const analyzeButton =
+            document.getElementById(
+                "analyzeButton"
+            );
+
+
+        const uploadForm =
+            document.getElementById(
+                "uploadForm"
+            );
+
+
+        const loadingBox =
+            document.getElementById(
+                "loadingBox"
+            );
+
+
+        /* =========================================
+           CHECK INPUT
+        ========================================= */
+
+        if (!imageInput) {
+
+            console.error(
+                "Django image input not found."
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           FILE SELECTED
+        ========================================= */
+
+        imageInput.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    this.files &&
+                    this.files.length > 0
+                ) {
+
+                    const file =
+                        this.files[0];
+
+                    showImage(file);
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           SHOW IMAGE
+        ========================================= */
+
+        function showImage(file) {
+
+            /* -------------------------------------
+               Check file type
+            ------------------------------------- */
+
+            const allowedTypes = [
+                "image/jpeg",
+                "image/jpg",
+                "image/png"
+            ];
+
+
+            if (
+                !allowedTypes.includes(
+                    file.type
+                )
+            ) {
+
+                alert(
+                    "Please select a JPG, JPEG or PNG image."
+                );
+
+                imageInput.value = "";
+
+                return;
+            }
+
+
+            /* -------------------------------------
+               Check file size
+            ------------------------------------- */
+
+            const maxSize =
+                10 * 1024 * 1024;
+
+
+            if (
+                file.size > maxSize
+            ) {
+
+                alert(
+                    "Image size must be less than 10 MB."
+                );
+
+                imageInput.value = "";
+
+                return;
+            }
+
+
+            /* -------------------------------------
+               File name
+            ------------------------------------- */
+
+            fileName.style.display =
+                "block";
+
+
+            fileName.innerHTML =
+                "Selected MRI: <strong>" +
+                escapeHtml(file.name) +
+                "</strong>";
+
+
+            /* -------------------------------------
+               Read image
+            ------------------------------------- */
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    imagePreview.src =
+                        event.target.result;
+
+
+                    previewContainer.style.display =
+                        "block";
+
+
+                    analyzeButton.disabled =
+                        false;
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHtml(text) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                text;
+
+
+            return div.innerHTML;
+        }
+
+
+        /* =========================================
+           DRAG OVER
+        ========================================= */
+
+        uploadArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+
+                uploadArea.classList.add(
+                    "dragover"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           DRAG LEAVE
+        ========================================= */
+
+        uploadArea.addEventListener(
+            "dragleave",
+            function () {
+
+                uploadArea.classList.remove(
+                    "dragover"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           DROP
+        ========================================= */
+
+        uploadArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+
+                uploadArea.classList.remove(
+                    "dragover"
+                );
+
+
+                const files =
+                    event.dataTransfer.files;
+
+
+                if (
+                    files &&
+                    files.length > 0
+                ) {
+
+                    const file =
+                        files[0];
+
+
+                    const allowedTypes = [
+                        "image/jpeg",
+                        "image/jpg",
+                        "image/png"
+                    ];
+
+
+                    if (
+                        !allowedTypes.includes(
+                            file.type
+                        )
+                    ) {
+
+                        alert(
+                            "Please drop a JPG, JPEG or PNG image."
+                        );
+
+                        return;
+                    }
+
+
+                    const maxSize =
+                        10 * 1024 * 1024;
+
+
+                    if (
+                        file.size > maxSize
+                    ) {
+
+                        alert(
+                            "Image size must be less than 10 MB."
+                        );
+
+                        return;
+                    }
+
+
+                    const dataTransfer =
+                        new DataTransfer();
+
+
+                    dataTransfer.items.add(
+                        file
+                    );
+
+
+                    imageInput.files =
+                        dataTransfer.files;
+
+
+                    showImage(file);
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           REMOVE IMAGE
+        ========================================= */
+
+        removeButton.addEventListener(
+            "click",
+            function () {
+
+                imageInput.value = "";
+
+                imagePreview.src = "";
+
+                fileName.innerHTML = "";
+
+                fileName.style.display =
+                    "none";
+
+                previewContainer.style.display =
+                    "none";
+
+                analyzeButton.disabled =
+                    true;
+
+            }
+        );
+
+
+        /* =========================================
+           FORM SUBMIT
+        ========================================= */
+
+        uploadForm.addEventListener(
+            "submit",
+            function (event) {
+
+                if (
+                    !imageInput.files ||
+                    imageInput.files.length === 0
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select an MRI image."
+                    );
+
+                    return;
+                }
+
+
+                analyzeButton.disabled =
+                    true;
+
+
+                analyzeButton.innerHTML =
+                    "Analyzing MRI... Please wait";
+
+
+                loadingBox.style.display =
+                    "block";
+
+            }
+        );
+
+    }
+
+);
+
+</script>
+
+
+{% endblock %}

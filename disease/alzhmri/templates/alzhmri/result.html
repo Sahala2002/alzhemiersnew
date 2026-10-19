@@ -1,0 +1,267 @@
+{% extends "alzhmri/base.html" %}
+
+{% block title %}
+Classification Result | AlzheimerAI
+{% endblock %}
+
+{% block content %}
+
+<section class="inner-hero">
+
+    <div class="container">
+
+        <span>
+            MODEL OUTPUT
+        </span>
+
+        <h1>
+            Classification Result
+        </h1>
+
+        <p>
+            Result generated from the uploaded MRI image.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <!-- MRI IMAGE -->
+
+            <div class="col-lg-5">
+
+                <div class="result-image-card">
+
+                    <div class="result-card-header">
+
+                        <span>
+                            INPUT IMAGE
+                        </span>
+
+                    </div>
+
+                    <div class="mri-display">
+
+                        <img
+                            src="{{ prediction.uploaded_image.url }}"
+                            alt="Uploaded MRI"
+                        >
+
+                    </div>
+
+                    <div class="image-caption">
+                        Uploaded MRI Brain Scan
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div class="col-lg-7">
+
+                <div class="result-main-card">
+
+                    <span class="result-label">
+                        PREDICTED DATASET CATEGORY
+                    </span>
+
+
+                    <h2>
+                        {{ stage_info.title }}
+                    </h2>
+
+
+                    <p class="result-description">
+                        {{ stage_info.description }}
+                    </p>
+
+
+                    <div class="confidence-display">
+
+                        <div>
+
+                            <span>
+                                Predicted Class
+                            </span>
+
+                            <strong>
+                                {{ prediction.get_predicted_class_display }}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Model Confidence
+                            </span>
+
+                            <strong>
+                                {{ prediction.confidence|floatformat:2 }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="confidence-circle">
+
+                            {{ prediction.confidence|floatformat:0 }}%
+
+                        </div>
+
+                    </div>
+
+
+                    <h4 class="probability-title">
+                        Class Probabilities
+                    </h4>
+
+
+                    {% for name, probability in probabilities.items %}
+
+                    <div class="probability-item">
+
+                        <div class="probability-top">
+
+                            <span>
+                                {{ name }}
+                            </span>
+
+                            <strong>
+                                {{ probability|floatformat:2 }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar"
+                                role="progressbar"
+                                aria-valuenow="{{ probability }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                style="width: {{ probability }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p>
+                        Class probability data is not available.
+                    </p>
+
+                    {% endfor %}
+
+
+                    <!-- GRAD-CAM -->
+
+                    {% if gradcam_url %}
+
+                    <div class="gradcam-section mt-4">
+
+                        <h4 class="probability-title">
+                            Grad-CAM Explanation
+                        </h4>
+
+                        <div class="result-image-card">
+
+                            <div class="result-card-header">
+
+                                <span>
+                                    MODEL ATTENTION MAP
+                                </span>
+
+                            </div>
+
+                            <div class="mri-display">
+
+                                <img
+                                    src="{{ gradcam_url }}"
+                                    alt="Grad-CAM visualization"
+                                >
+
+                            </div>
+
+                            <div class="image-caption">
+
+                                Grad-CAM visualization of the model's attention.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="result-actions">
+
+                        <a
+                            href="{% url 'upload' %}"
+                            class="btn btn-primary">
+
+                            Analyze Another MRI
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'history' %}"
+                            class="btn btn-outline-primary">
+
+                            View History
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="academic-disclaimer mt-4">
+
+            <strong>
+                Academic / Research Disclaimer
+            </strong>
+
+            <p>
+
+                This system is a machine learning prototype
+                developed for academic and research purposes.
+                The displayed category is the output of a
+                trained image classifier and should not be
+                considered a clinical diagnosis. Qualified
+                healthcare professionals should make clinical
+                decisions.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

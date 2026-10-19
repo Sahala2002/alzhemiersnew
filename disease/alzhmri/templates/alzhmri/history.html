@@ -1,0 +1,233 @@
+{% extends "alzhmri/base.html" %}
+
+{% block title %}
+History | AlzheimerAI
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="inner-hero">
+
+    <div class="container">
+
+        <span>
+            PREDICTION RECORDS
+        </span>
+
+        <h1>
+            Classification History
+        </h1>
+
+        <p>
+            Previously processed MRI classification records.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section-padding">
+
+    <div class="container">
+
+        {% if predictions %}
+
+        <div class="history-panel">
+
+            <div class="table-responsive">
+
+                <table class="table history-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                MRI
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Confidence
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Result
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for item in predictions %}
+
+                    <tr>
+
+                        <td>
+
+                            <img
+                                src="{{ item.uploaded_image.url }}"
+                                class="history-image"
+                                alt="MRI"
+                            >
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ item.get_predicted_class_display }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="confidence-pill">
+
+                                {{ item.confidence|floatformat:2 }}%
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ item.created_at|date:"d M Y, h:i A" }}
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{% url 'result' item.id %}"
+                                class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        {% if predictions.has_other_pages %}
+
+        <nav class="mt-4">
+
+            <ul class="pagination justify-content-center">
+
+                {% if predictions.has_previous %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ predictions.previous_page_number }}">
+
+                        Previous
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+
+                        {{ predictions.number }}
+
+                    </span>
+
+                </li>
+
+
+                {% if predictions.has_next %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ predictions.next_page_number }}">
+
+                        Next
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+        {% endif %}
+
+
+        {% else %}
+
+        <div class="empty-history">
+
+            <div>
+                🧠
+            </div>
+
+            <h3>
+                No classifications yet
+            </h3>
+
+            <p>
+                Upload an MRI image to generate your first
+                classification.
+            </p>
+
+            <a
+                href="{% url 'upload' %}"
+                class="btn btn-primary">
+
+                Analyze MRI
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+{% endblock %}

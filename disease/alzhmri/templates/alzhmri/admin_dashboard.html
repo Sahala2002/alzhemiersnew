@@ -1,0 +1,870 @@
+{% extends "alzhmri/base.html" %}
+
+{% block title %}
+Admin Dashboard | AlzheimerAI
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.admin-page {
+    background: #f6f8fc;
+    min-height: 100vh;
+    padding: 40px 0 70px;
+}
+
+/* HEADER */
+
+.admin-header {
+    margin-bottom: 30px;
+}
+
+.admin-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.admin-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.admin-header p {
+    color: #777;
+    margin: 0;
+}
+
+
+/* STAT CARDS */
+
+.stat-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    height: 100%;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.stat-label {
+    color: #777;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+
+/* MAIN CARD */
+
+.admin-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 30px;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.admin-card-title {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+
+/* TABLE */
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-size: 13px;
+    color: #777;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.user-name {
+    font-weight: 600;
+}
+
+.user-email {
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* AVATAR */
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2ff;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+
+/* BUTTON */
+
+.activity-btn {
+    border-radius: 8px;
+    padding: 7px 13px;
+    font-size: 13px;
+}
+
+
+/* MRI IMAGE */
+
+.mri-thumb {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 9px;
+    border: 1px solid #eee;
+}
+
+
+/* ACTIVITY BADGES */
+
+.activity-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* EMPTY */
+
+.empty-message {
+    padding: 25px;
+    text-align: center;
+    color: #888;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .admin-header h1 {
+        font-size: 28px;
+    }
+
+    .admin-page {
+        padding-top: 25px;
+    }
+
+}
+
+</style>
+
+
+<section class="admin-page">
+
+<div class="container">
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="admin-header">
+
+        <span class="admin-badge">
+            ADMIN PANEL
+        </span>
+
+        <h1>
+            AlzheimerAI Dashboard
+        </h1>
+
+        <p>
+            Monitor registered users, activity and MRI predictions.
+        </p>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- STATISTICS -->
+    <!-- ================================================= -->
+
+    <div class="row g-4">
+
+
+        <!-- USERS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Registered Users
+                </span>
+
+                <h2 class="stat-number">
+                    {{ total_users }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVE USERS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Active Users
+                </span>
+
+                <h2 class="stat-number">
+                    {{ active_users }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- PREDICTIONS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    MRI Analyses
+                </span>
+
+                <h2 class="stat-number">
+                    {{ total_predictions }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVITIES -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Total Activities
+                </span>
+
+                <h2 class="stat-number">
+                    {{ total_activities }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- REGISTERED USERS -->
+    <!-- ================================================= -->
+
+    <div class="admin-card">
+
+        <h3 class="admin-card-title">
+            Registered Users
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            USER
+                        </th>
+
+                        <th>
+                            EMAIL
+                        </th>
+
+                        <th>
+                            JOINED
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            ACTIVITY
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for user in users %}
+
+                    <tr>
+
+
+                        <!-- USER -->
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="user-avatar">
+
+                                    {{ user.username|first|upper }}
+
+                                </div>
+
+                                <div>
+
+                                    <div class="user-name">
+
+                                        {{ user.username }}
+
+                                    </div>
+
+                                    {% if user.is_staff %}
+
+                                        <small class="text-muted">
+                                            Administrator
+                                        </small>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- EMAIL -->
+
+                        <td>
+
+                            <span class="user-email">
+
+                                {{ user.email|default:"No email" }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- JOINED -->
+
+                        <td>
+
+                            {{ user.date_joined|date:"d M Y" }}
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                {{ user.date_joined|date:"h:i A" }}
+
+                            </small>
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            {% if user.is_active %}
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTIVITY -->
+
+                        <td>
+
+                            <a
+                                href="{% url 'admin_user_activity' user.id %}"
+                                class="btn btn-outline-primary activity-btn">
+
+                                View Activity
+
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="empty-message">
+
+                                No registered users found.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- RECENT USER ACTIVITY -->
+    <!-- ================================================= -->
+
+    <div class="admin-card">
+
+        <h3 class="admin-card-title">
+            Recent User Activity
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            USER
+                        </th>
+
+                        <th>
+                            ACTIVITY
+                        </th>
+
+                        <th>
+                            DESCRIPTION
+                        </th>
+
+                        <th>
+                            DATE & TIME
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for activity in recent_activities %}
+
+                    <tr>
+
+
+                        <td>
+
+                            <strong>
+                                {{ activity.user.username }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if activity.activity_type == "LOGIN" %}
+
+                                <span class="activity-badge bg-success-subtle text-success">
+                                    Login
+                                </span>
+
+                            {% elif activity.activity_type == "LOGOUT" %}
+
+                                <span class="activity-badge bg-secondary-subtle text-secondary">
+                                    Logout
+                                </span>
+
+                            {% elif activity.activity_type == "REGISTER" %}
+
+                                <span class="activity-badge bg-primary-subtle text-primary">
+                                    Registration
+                                </span>
+
+                            {% elif activity.activity_type == "MRI_UPLOAD" %}
+
+                                <span class="activity-badge bg-warning-subtle text-warning">
+                                    MRI Upload
+                                </span>
+
+                            {% elif activity.activity_type == "PREDICTION" %}
+
+                                <span class="activity-badge bg-info-subtle text-info">
+                                    Prediction
+                                </span>
+
+                            {% else %}
+
+                                <span class="activity-badge bg-light text-dark">
+                                    {{ activity.get_activity_type_display }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ activity.description }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ activity.created_at|date:"d M Y, h:i A" }}
+
+                        </td>
+
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="4">
+
+                            <div class="empty-message">
+
+                                No activity recorded yet.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- PREDICTION STATISTICS -->
+    <!-- ================================================= -->
+
+    <div class="admin-card">
+
+        <h3 class="admin-card-title">
+            MRI Prediction Statistics
+        </h3>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Non-Demented
+                    </span>
+
+                    <h2 class="stat-number">
+                        {{ non_demented_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Very Mild Demented
+                    </span>
+
+                    <h2 class="stat-number">
+                        {{ very_mild_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Mild Demented
+                    </span>
+
+                    <h2 class="stat-number">
+                        {{ mild_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Moderate Demented
+                    </span>
+
+                    <h2 class="stat-number">
+                        {{ moderate_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- RECENT PREDICTIONS -->
+    <!-- ================================================= -->
+
+    <div class="admin-card">
+
+        <h3 class="admin-card-title">
+            Recent MRI Predictions
+        </h3>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            USER
+                        </th>
+
+                        <th>
+                            MRI
+                        </th>
+
+                        <th>
+                            PREDICTED CLASS
+                        </th>
+
+                        <th>
+                            CONFIDENCE
+                        </th>
+
+                        <th>
+                            DATE
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for prediction in recent_predictions %}
+
+                    <tr>
+
+
+                        <!-- USER -->
+
+                        <td>
+
+                            {% if prediction.user %}
+
+                                <strong>
+                                    {{ prediction.user.username }}
+                                </strong>
+
+                            {% else %}
+
+                                <span class="text-muted">
+                                    Unknown
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- MRI -->
+
+                        <td>
+
+                            {% if prediction.uploaded_image %}
+
+                                <img
+                                    src="{{ prediction.uploaded_image.url }}"
+                                    class="mri-thumb"
+                                    alt="MRI">
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CLASS -->
+
+                        <td>
+
+                            <strong>
+
+                                {{ prediction.get_predicted_class_display }}
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- CONFIDENCE -->
+
+                        <td>
+
+                            {{ prediction.confidence|floatformat:2 }}%
+
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td>
+
+                            {{ prediction.created_at|date:"d M Y, h:i A" }}
+
+                        </td>
+
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="empty-message">
+
+                                No MRI predictions available.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</section>
+
+{% endblock %}
